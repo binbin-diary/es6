@@ -2,9 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>字符串扩展</title>
 </head>
 <body>
+    <p>
+        1. 新增方法 codePointAt() <br />
+        2. fromCodePoint() <br />
+        3. includes(), startsWith(), endsWith(); <br />
+        4. repeat() 返回一个新字符串，表示将原字符串重复N次
+    </p>
+    <script>
+        let sDemo = 'https://www.lms.com';
+
+        //es5 判断一个字符串是否存在另一个字符串中
+        if(sDemo.indexOf('//') !== -1){
+            console.log(sDemo.charAt(8));
+        }
+
+        if(sDemo.includes('https') === true){
+            console.log('includes');
+        }
+
+
+
+    </script>
 
 </body>
 </html>
