@@ -6,10 +6,52 @@
 </head>
 <body>
     <p>
-        1.
+        函数参数可以使用数组，或对象解构<br />
+
+        用途: <br />
+        1. 交换变量值<br />
+        2. 函数返回多个值<br />
+        3. 提取JSON值<br />
+        4. 遍历Map结构
+
     </p>
 
     <script>
+        //1
+        function add([x,y = 2 ]) {
+            return x+y;
+        }
+        let val = add([1]);
+        console.log(val);
+
+        function objFn( { key: keys, x: x = 'nihao' } = { key: 'name', x: 'nihao' } ) {
+            console.log(keys, x);
+        }
+        objFn({ key: 'name'})
+
+        function fn({x, y} = {x: 1, y: 1}) {
+            console.log(x, y)
+        }
+        fn();
+
+
+        //2 返回多个值
+        function fn1( {x, y} = {x:'name', y: ''} ) {
+            return { key: x, value: y};
+        }
+
+        let arr = fn1({x: 'age', y: 20 })
+        console.log(arr);
+
+
+        //4.遍历map结构
+        const map = new Map();
+        map.set('first', 'hello');
+        map.set('second', 'world');
+
+        for (let [key, value] of map) {
+            console.log(key + " is " + value);
+        }
 
 
     </script>
