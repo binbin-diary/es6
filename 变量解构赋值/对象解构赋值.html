@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>对象解构赋值</title>
+</head>
+<body>
+    <div id="objectDemo">
+        <p>
+            1.对象赋值，变量必须跟属性同名，才能找到对应的值；<br />
+            2.如何变量名和属性名不一致，必须按照对象的规则来写，同时属性是匹配的条件，后面的变量才是真正的赋值；
+        </p>
+
+    </div>
+
+    <script>
+        let { key, val=20 } = {key: 'name', val: 'xiaoming'}
+        console.log(key, val);
+
+        //2
+        let { key: name, age: ages=21 } = { key: 'xiaoming'};
+        console.log(name, ages);
+
+    </script>
+
+</body>
+</html>
