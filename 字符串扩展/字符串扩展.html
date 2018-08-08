@@ -9,8 +9,12 @@
         1. 新增方法 codePointAt() <br />
         2. fromCodePoint() <br />
         3. includes(), startsWith(), endsWith(); <br />
-        4. repeat() 返回一个新字符串，表示将原字符串重复N次
+        4. repeat() 返回一个新字符串，表示将原字符串重复N次<br />
+        5. 使用模板字符串, 使用反引号标识``
     </p>
+
+    <div id="add"></div>
+
     <script>
         let sDemo = 'https://www.lms.com';
 
@@ -23,7 +27,46 @@
             console.log('includes');
         }
 
+        let sTemplate = `<div class="cls">${ sDemo }</div>`
 
+        document.getElementById('add').innerHTML = sTemplate;
+
+        function compile(template){
+            const evalExpr = /<%=(.+?)%>/g;
+            const expr = /<%([\s\S]+?)%>/g;
+
+            template = template
+                .replace(evalExpr, '`); \n  echo( $1 ); \n  echo(`')
+                .replace(expr, '`); \n $1 \n  echo(`');
+
+            template = 'echo(`' + template + '`);';
+
+            let script = `(function parse(data){
+                    let output = "";
+
+                    function echo(html){
+                      output += html;
+                    }
+
+                    ${ template }
+
+                    return output;
+                })`;
+
+            return script;
+        }
+        let template = `
+            <ul>
+              <% for(let i=0; i < data.supplies.length; i++) { %>
+                <li><%= data.supplies[i] %></li>
+              <% } %>
+            </ul>
+            `;
+
+        let parse = eval(compile(template));
+
+
+        console.log(parse({ supplies: [ "broom", "mop", "cleaner" ] }));
 
     </script>
 
