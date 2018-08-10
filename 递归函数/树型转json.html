@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .test li{
+            padding-left:40px;
+        }
+        .test input{
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="test">
+    <ul id="flowWarp">
+        <li class="parent" data-id="1">
+            <input type="text" class="item1-li" value="parent">
+            <ul>
+                <li class="children" data-id="11">
+                    <input type="text" class="item1-li" value="children">
+                    <ul>
+                        <li class="children-children" data-id="11-1">
+                            <input type="text" class="item1-li" value="children-children">
+                        </li>
+                        <li class="children-children" data-id="11-1">
+                            <input type="text" class="item1-li" value="children-children">
+                        </li>
+                    </ul>
+                </li>
+                <li class="children" data-id="12">
+                    <input type="text" class="item1-li" value="children">
+                </li>
+                <li class="children" data-id="13">
+                    <input type="text" class="item1-li" value="children">
+                </li>
+            </ul>
+        </li>
+        <li class="parent" data-id="2">
+            <input type="text" class="item1-li" value="parent">
+            <ul>
+                <li class="children" data-id="12">
+                    <input type="text" class="item1-li" value="children">
+                </li>
+                <li class="children" data-id="22">
+                    <input type="text" class="item1-li" value="children">
+                </li>
+                <li class="children" data-id="23">
+                    <input type="text" class="item1-li" value="children">
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    function jsonFn(ul) {
+        var ul = $(ul);
+        var arr = [];
+        var li = ul.children();
+        for (var i = 0; i < li.length; i++) {
+
+            var obj = {};
+            var id = li.eq(i).data('id');
+            obj.id = id;
+            obj.children = [];
+
+            if (li.eq(i).find('ul') &&  li.eq(i).find('ul').length > 0) {
+                obj.children = jsonFn(li.eq(i).find('ul').eq(0));
+            }
+            arr.push(obj);
+        }
+        return arr;
+    }
+    var ul = $('#flowWarp');
+    var json = jsonFn(ul);
+    console.log(json);
+
+</script>
+</body>
+</html>
