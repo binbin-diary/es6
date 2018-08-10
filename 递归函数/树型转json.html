@@ -42,6 +42,17 @@
             <ul>
                 <li class="children" data-id="12">
                     <input type="text" class="item1-li" value="children">
+                    <ul>
+                        <li class="children" data-id="12">
+                            <input type="text" class="item1-li" value="children">
+                        </li>
+                        <li class="children" data-id="22">
+                            <input type="text" class="item1-li" value="children">
+                        </li>
+                        <li class="children" data-id="23">
+                            <input type="text" class="item1-li" value="children">
+                        </li>
+                    </ul>
                 </li>
                 <li class="children" data-id="22">
                     <input type="text" class="item1-li" value="children">
@@ -55,12 +66,12 @@
 </div>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
+    //方案一
     function jsonFn(ul) {
         var ul = $(ul);
         var arr = [];
         var li = ul.children();
         for (var i = 0; i < li.length; i++) {
-
             var obj = {};
             var id = li.eq(i).data('id');
             obj.id = id;
@@ -75,6 +86,25 @@
     }
     var ul = $('#flowWarp');
     var json = jsonFn(ul);
+    console.log(json);
+
+    //方法二
+    function children_arr(_this){
+        var arr = [];
+
+        _this.children().each(function(){
+            var obj = {}
+            obj.id = $(this).data("id");
+            obj.children = [];
+
+            if($(this).find("ul") && $(this).find("ul").length > 0){
+                obj.children = children_arr($(this).find("ul").eq(0))
+            }
+            arr.push(obj);
+        });
+        return arr;
+    }
+    var json = children_arr($("#flowWarp"))
     console.log(json);
 
 </script>
