@@ -13,133 +13,98 @@
     </style>
 </head>
 <body>
-<div class="test">
-    <ul id="flowWarp">
-        <li class="parent" data-id="1">
-            <input type="text" class="item1-li" value="parent">
-            <ul>
-                <li class="children" data-id="11">
-                    <input type="text" class="item1-li" value="children">
-                    <ul>
-                        <li class="children-children" data-id="11-1">
-                            <input type="text" class="item1-li" value="children-children">
-                        </li>
-                        <li class="children-children" data-id="11-1">
-                            <input type="text" class="item1-li" value="children-children">
-                        </li>
-                    </ul>
-                </li>
-                <li class="children" data-id="12">
-                    <input type="text" class="item1-li" value="children">
-                </li>
-                <li class="children" data-id="13">
-                    <input type="text" class="item1-li" value="children">
-                </li>
-            </ul>
-        </li>
-        <li class="parent" data-id="2">
-            <input type="text" class="item1-li" value="parent">
-            <ul>
-                <li class="children" data-id="12">
-                    <input type="text" class="item1-li" value="children">
-                </li>
-                <li class="children" data-id="22">
-                    <input type="text" class="item1-li" value="children">
-                </li>
-                <li class="children" data-id="23">
-                    <input type="text" class="item1-li" value="children">
-                </li>
-            </ul>
-        </li>
-    </ul>
-</div>
+<div id="test"></div>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
-
-    var arr = [];
-    $(".test .parent").each(function(index){
-        childrenFn($(this), index)
-    });
-
-    function childrenFn(_this, index){
-        var children_arr = [];
-        var pid = _this.data('id');
-
-        if(_this.find("ul").eq(0).children() && _this.find("ul").eq(0).children().length > 0){
-
-            _this.find("ul").eq(0).children().each(function(idx){ //遍历子元素li
-                var obj = {
-                    pid: pid,
-                    id: $(this).data("id"),
-                    children:[]
-                };
-                children_arr.push(obj);
-
-                if($(this).find('ul').length > 0){
-                    return childrenFn($(this), idx)
+    var json = [
+        {
+            "id": 1,
+            "children": [
+                {
+                    "id": 11,
+                    "children": [
+                        {
+                            "id": "11-1",
+                            "children": []
+                        },
+                        {
+                            "id": "11-1",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "id": 12,
+                    "children": []
+                },
+                {
+                    "id": 13,
+                    "children": []
                 }
-            });
+            ]
+        },
+        {
+            "id": 2,
+            "children": [
+                {
+                    "id": 12,
+                    "children": [
+                        {
+                            "id": 12,
+                            "children": [
+                                {
+                                    "id": 12,
+                                    "children": []
+                                },
+                                {
+                                    "id": 22,
+                                    "children": []
+                                },
+                                {
+                                    "id": 23,
+                                    "children": []
+                                }
+                            ]
+                        },
+                        {
+                            "id": 22,
+                            "children": []
+                        },
+                        {
+                            "id": 23,
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "id": 22,
+                    "children": []
+                },
+                {
+                    "id": 23,
+                    "children": []
+                }
+            ]
         }
-        pushFn(pid, children_arr)
-
-    }
-
-    function pushFn(pid, children_arr){
-
-        arr.push({
-            id: pid,
-            children: children_arr
-        });
-    }
-
-    console.log(arr)
-
-
-    function getArrByUl(ul, id) {
-        var arr = [];
-        var oLi = {};
-        var children = ul.children;
-        for (var i = 0; i < children.length; i++) {
-            oLi = {
-                id: id ? id + '-' + (i + 1) : i + 1
+    ];
+    function jsonFn(data, level) {
+        var level=level || 0;
+        level++;
+        var str = "<ul>"
+        for (var i = 0; i < data.length; i++) {
+            str += "<li>" + level + "、" + data[i].id;
+            if (data[i].children &&  data[i].children.length > 0) {
+                str += jsonFn(data[i].children);
             }
-            // 非最底层li
-            if (children[i].className.search('flow-list') < 0) {
-                oLi.children = getArrByUl(findNode(children[i], 'UL'), oLi.id);
-            }
-            arr.push(oLi);
+            str += "</li>";
         }
-        return arr;
+        str+="</ul>";
+        return str;
     }
+    var $html = jsonFn(json);
+    console.log($html);
+    $('#test').html($html);
 
-    // 取得text
-    function getTxtByLi(li) {
-        var txt = '';
-        var children = li.children;
-        // 是最底层li
-        if (li.className.search('flow-list') >= 0) {
-            txt = li.innerHTML;
-        } else {
-            txt = findNode(li, 'A').innerHTML;
-        }
-        return txt;
-    }
-
-    // 取得元素的某个子元素
-    function findNode(el, tagName) {
-        for (var i = 0; i < el.children.length; i++) {
-            if (el.children[i].tagName === tagName) {
-                return el.children[i];
-            }
-        }
-    }
-
-    var flowWarp = document.getElementById('flowWarp');
-
-    console.log(getArrByUl(flowWarp))
-
-
-    
 </script>
 </body>
 </html>
