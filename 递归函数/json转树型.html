@@ -13,6 +13,10 @@
     </style>
 </head>
 <body>
+<p>
+    递归算法，是为了解决同一个问题，调用自身或间接调用自身。
+</p>
+
 <div id="test"></div>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
@@ -104,6 +108,16 @@
     var $html = jsonFn(json);
     console.log($html);
     $('#test').html($html);
+
+    //常用例子n几次幂
+
+    function fn(item) {
+        if(item <= 1){
+            return 1;
+        }
+        return item * arguments.callee(item - 1 );
+    }
+    console.log(fn(4));
 
 </script>
 </body>
