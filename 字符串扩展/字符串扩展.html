@@ -66,7 +66,42 @@
         let parse = eval(compile(template));
 
 
-        console.log(parse({ supplies: [ "broom", "mop", "cleaner" ] }));
+        //console.log(parse({ supplies: [ "broom", "mop", "cleaner" ] }));
+
+        //call apply用法
+        function callFn() {
+            this.class = 'cls'
+            this.name = 'ximing11';
+            this.age = '88';
+            this.getName = function () {
+                return console.log(this.name, this.age);
+            }
+        }
+        function pFn(){};
+        pFn.prototype = {
+            name: 'xiao',
+            age: '20111'
+        }
+
+        pFn.prototype.getFn = function () {
+            callFn.call(this);
+            console.log(this.age);
+        }
+
+        let dd = new pFn();
+        dd.getFn();
+        dd.getName();
+
+        function bFn() {
+            callFn.apply(this);
+            this.getClass = function () {
+                return console.log(this.class);
+            };
+        }
+        let c = new bFn()
+        c.getClass();
+        c.getName();
+        //c.getAge();
 
     </script>
 
