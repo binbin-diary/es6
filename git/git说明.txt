@@ -1,0 +1,31 @@
+git 常见命令
+
+git clone [url]  //复制
+git checkout [本地name] //切换分支
+
+git branch [name] //创建本地分支
+git checkout -b [name] origin/[远程name] //合并命令创建本地分支，并切换分支
+
+git pull //下拉
+git add //增加
+git commit //提交
+git push //推送
+
+
+//合并分支前提，切换到合并分支
+git checkout [合并分支]
+git merge [需要合并分支]
+
+
+//创建本地分支并推送到远程仓库
+git checkout [本地分支name] origin/[远程分支name]
+git push origin [本地分支name]
+
+
+git branch //查看本地分支
+git branch -a //查看远程分支
+
+
+//删除分支
+git branch -D [name] //删除本地分支,其中-D即为--delete
+git push origin --delete ddss //删除远程仓库分支
