@@ -103,6 +103,38 @@
         c.getName();
         //c.getAge();
 
+
+
+        // 数组
+        var arr = [1,2,2,3,3,3,4,555,3,4,5,5,5,555]
+        var oObj = {};
+        var news = []
+        for(var s = 0; s < arr.length; s++){
+            (arr[s] in oObj) ? oObj[arr[s]]++ : oObj[arr[s]] = 1;
+        }
+        for (var x in oObj) {
+            if (oObj[x] == 1) {
+                news.push(x);
+            }
+        }
+        console.log('news:',news)
+
+
+        var a = [1, 2, 3, 3, 3, 4, 5, 6, 7];
+        var b = [1, 2, 5];
+        var cArr = [];
+        var tmp = a.concat(b);
+        var o = {};
+        for (var s = 0; s < tmp.length; s++) {
+            (tmp[s] in o) ? o[tmp[s]]++ : o[tmp[s]] = 1;
+        }
+        for (var x in o) {
+            if (o[x] == 1) {
+                cArr.push(x);
+            }
+        }
+        console.log(cArr);
+
     </script>
 
 </body>

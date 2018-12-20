@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正则表达式</title>
+</head>
+<body>
+    <input type="text" value="" />
+
+<script>
+    var $input = document.getElementsByTagName('input')[0];
+    $input.addEventListener('change', function () {
+        var _value = $input.value;
+        console.log(_value)
+
+        // var reg = /\d+\d$/; // 只允许输入数字
+        // var reg = /^[1-9]\d+\.\d$/; // 只允许输入正数，不能输入0
+        var reg = /^([1-9])\d+\.([0-9]{1,2})$/ // 只允许输入正数，不能输入0, 小数保留2位
+        if (!reg.test(_value)) {
+            alert('只允许输入数字')
+        }
+    })
+
+    var rVal = ' sas dfs ';
+    var val = rVal.replace(/^\s|\s$/g, '')
+    console.log(rVal.length, val.length, val);
+
+    // 验证邮箱
+    var email = 'wubinbinaa@globalegrow.com'
+    if (!/^([A-Za-z0-9._-])+\@([A-Za-z0-9])+\.([A-Za-z]{2,8})$/.test(email)) {
+        console.log('邮箱格式不对');
+    }
+
+
+</script>
+
+</body>
+</html>
