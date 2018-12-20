@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>indexedDB</title>
+    <style>
+        .tableCls{
+            border: 1px solid #ddd;
+        }
+        .tableCls tr td{
+            width: 100px;
+            text-align: center;
+            line-height: 24px;
+        }
+
+    </style>
+</head>
+<body>
+    <button type="button" id="add">添加</button>
+    <button type="button" id="update">更新</button>
+
+    <table class="tableCls"></table>
+
+    <script>
+        function fIndexedDB() {
+            var _DB = window.indexedDB;
+            var version = 1;
+            var db;
+            var lId = 0;
+            var methodObj = {}
+            if (_DB) {
+                // 创建或打开数据库
+                var request = _DB.open('TestDB', version);
+                
+                request.onsuccess = function (event) {
+                    console.log('打开数据库成功');
+                    db = event.target.result; // 得到IDBDataBase对象
+                    // 显示数据
+                    methodObj.show();
+                };
+                
+                request.onerror = function () {
+                    console.log('打开数据库失败');
+                }
+                
+                // 创建或更新数据库版本时
+                request.onupgradeneeded = function (event) {
+                    db = event.target.result;
+
+                    // 新建仓库或表
+                    var objectStore;
+                    if (!db.objectStoreNames.contains('table')) {
+                        objectStore = db.createObjectStore('table', {
+                            keyPath: 'id',
+                            autoIncrement: true
+                        });
+                        // 添加索引
+                        objectStore.createIndex('id', 'id', { unique: false });
+                        objectStore.createIndex('name', 'name', { unique: false });
+                    }
+                }
+
+                // 方法
+                methodObj = {
+                    add: function () {
+                        var oData = {
+                            id: lId + 1,
+                            name: '小李1',
+                            age: 22,
+                            email: 'aa@163.com'
+                        }
+                        var request = db.transaction(['table'], 'readwrite').objectStore('table').add(oData);
+                        
+                        // 成功
+                        request.onsuccess = function (event) {
+                            console.log('添加数据成功', event);
+                            var $table = document.querySelector('.tableCls');
+                            $table.innerHTML = '';
+                            i = 0;
+                            methodObj.show();
+                        }
+
+                        // 失败
+                        request.onerror = function (event) {
+                            console.log('添加数据失败', event.target.error.message);
+                        }
+                    },
+                    // 更新
+                    update: function (id) {
+                        var oData = {
+                            id: id,
+                            name: '小明1',
+                            age: 23,
+                            email: 'aaa@163.com'
+                        }
+                        var request = objectStore.put(oData);
+
+                        request.onsuccess = function () {
+                            alert('更新成功')
+                            methodObj.show();
+                        }
+                    },
+                    // 获取当前
+                    get: function (name) {
+                        // 根据索引name，获取
+                        var objectStore = db.transaction(['table'], 'readwrite').objectStore('table');
+                        var store = objectStore.index('name');
+                        var request = store.get(name);
+
+                        request.onsuccess = function (event) {
+                            alert('获取成功')
+                            console.log(event.target.result);
+                        }
+                    },
+                    del: function (id) {
+                        var id = typeof id == 'string' ? Number(id) : id;
+                        var request = db.transaction(['table'], 'readwrite').objectStore('table').delete(id);
+
+                        request.onsuccess = function (event) {
+                            alert('删除成功');
+                            methodObj.show();
+                        }
+                    },
+                    show: function () {
+                        var request = db.transaction(['table'], 'readwrite').objectStore('table')
+                        var count = request.count();
+
+                        // var getDate = request.get(1); // key获取
+                        var getDate = request.openCursor(); // 获取游标列表
+                        var $table = document.querySelector('.tableCls');
+                        $table.innerHTML = '';
+
+                        count.onsuccess = function(event) {
+                            lId = event.target.result;
+                        }
+
+                        getDate.onsuccess = function (event) {
+                            var cursor = event.target.result;
+                            if (cursor) {
+                                var $tr = document.createElement("tr");
+                                var sStr = '<td>'+ cursor.value['id'] +'</td>'
+                                            +'<td>'+ cursor.value['name'] +'</td>'
+                                            +'<td>'+ cursor.value['age'] +'</td>'
+                                            +'<td>'+ cursor.value['email'] +'</td>'
+                                            +'<td class="get" data-name="'+ cursor.value['name'] +'">获取</td>'
+                                            +'<td class="del" data-id="'+ cursor.value['id'] +'">删除</td>';
+                                $tr.innerHTML = sStr;
+                                $table.appendChild($tr);
+                                cursor.continue();
+                            }
+                        }
+                    }
+                }
+            }
+
+            document.getElementById('add').addEventListener('click', function () {
+                methodObj.add();
+            });
+
+            document.getElementById('update').addEventListener('click', function () {
+                methodObj.update();
+            });
+
+            var $del = document.querySelector('.tableCls');
+            $del.addEventListener('click', function (event) {
+                if (event && event.target.classList.contains('del')) {
+                    var id = event.target.getAttribute('data-id');
+                    methodObj.del(id)
+                } else if (event && event.target.classList.contains('get')) {
+                    var name = event.target.getAttribute('data-name');
+                    methodObj.get(name)
+                }
+            });
+        }
+        fIndexedDB();
+
+    </script>
+</body>
+</html>
