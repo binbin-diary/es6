@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        function test(a, b){
+            console.log(b);
+            return {
+                test: function(c) {
+                    return test(c, a)
+                }
+            }
+        }
+        test(109).test(110).test(111)
+
+        var key = "22";
+        var newStr = `<p><span data-field="${key}">demo</span></p>`;
+        var sString = newStr.replace(/(?<=data-field=").*?(?=">)/g, 'javascript');
+        console.log(sString);
+
+
+    </script>
+</body>
+</html>

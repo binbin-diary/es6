@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Array</title>
+</head>
+<body>
+
+    <script>
+        const arr = {
+            0: '11',
+            1: '22'
+        };
+
+        // Array.from() 方法把两类对象转化为真正的数组, 类似数组或可遍历的对象
+        const aArray = Array.from(arr); // 返回一个新的数组实例
+
+        console.log(arr, aArray);
+
+        if (Array.isArray(arr)) {
+            console.log('当前arr为数组');
+        }
+
+        // 排序 sort()
+
+        function sortArr(data) {
+            data.sort(function (a, b) {
+
+                return (a.goods_number - b.goods_number);
+            })
+        }
+
+        const oData = [
+            {
+                goods_number: 22,
+                value: '11'
+            },
+            {
+                goods_number: 0,
+                value: '22'
+            },
+            {
+                goods_number: 0,
+                value: '44'
+            },
+            {
+                goods_number: 11,
+                value: '33'
+            },
+            {
+                goods_number: 111,
+                value: '55'
+            }
+        ]
+
+        oData.sort(function (a, b) {
+            return (b.goods_number - a.goods_number);
+        })
+
+        // const newData = sortArr(oData);
+        console.log(oData);
+
+    </script>
+
+</body>
+</html>

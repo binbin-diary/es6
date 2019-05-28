@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .wrap{
+            display: flex;
+            padding: 20px 19px;
+            justify-content: center;
+            align-items: center;
+        }
+        .wrap .wrap-l {
+            display: flex;
+            flex: 1;
+            min-width: 388px;
+            border: 1px solid #EBEEF5;
+        }
+        .wrap .wrap-r{
+            margin-left: 30px;
+            flex: 2;
+            min-width: 650px;
+            border: 1px solid #EBEEF5;
+        }
+        .wrap-l .flex-wrap{
+            display: flex;
+            flex-flow: wrap row;
+        }
+        .wrap-l .flex-wrap .left{
+            display: flex;
+
+            flex: 3;
+            min-width: 230px;
+            padding: 20px 0;
+        }
+        .wrap-l .flex-wrap .left-l{
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .wrap-l .flex-wrap .left-r{
+            min-width: 8px;
+            width: 8px;
+            height: 8px;
+            background: #F56C6C;
+            border-radius: 50%;
+        }
+        .wrap-l .flex-wrap .right{
+            display: flex;
+            flex: 1;
+            min-width: 120px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="wrap">
+        <div class="wrap-l">
+            <div class="flex-wrap">
+                <div class="left">
+                    <div class="left-l">明天上</div>
+                    <div class="left-r"></div>
+                </div>
+                <div class="right">
+                    <div class="right-cont">2018-10-31 08:52:10</div>
+                </div>
+            </div>
+        </div>
+        <div class="wrap-r">
+            右侧
+
+        </div>
+    </div>
+</body>
+</html>

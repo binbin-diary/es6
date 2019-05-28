@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>遍历对象</title>
+</head>
+<body>
+    <script>
+        // for Array
+        var arr = [
+            {
+                name: '22',
+                model: 'nihao'
+            },
+            {
+                name: '33',
+                model: 'aa'
+            }
+        ]
+        for (var i =0; i<arr.length; i++) {
+            console.log(arr[i]['name'])
+        }
+
+        Array.prototype.toName = function () {};
+
+        // for in 会遍历当前数组以及原型
+        for (var key in arr) {
+            if (arr.hasOwnProperty(key)) {
+                console.log('in, key', key);
+            }
+        }
+
+        // es6 for of
+        for (var key of arr) {
+            console.log('of,key:', key);
+        }
+
+        // 遍历对象
+        var oObj = {
+            name: 'nihao',
+            fn: function () {
+                return this.name;
+            },
+            age: 20
+        }
+
+        for (var key in oObj) {
+            console.log('属性:', key)
+        }
+
+        console.log(Object.keys(oObj) instanceof Array);
+
+        Object.keys(oObj).forEach((key, index) => {
+            console.log('属性:', key, '下标:', index);
+        })
+
+        // 遍历数组
+        var aArr = [1, 2, 3, 4, 5];
+        var oArr = [
+            {
+                age: 11
+            },
+            {
+                age: 12
+            }
+        ];
+
+        var mArr = [
+            {
+                age: 11
+            },
+            {
+                age: 12
+            }
+        ]
+
+        // Array.prototype.forEach 与 Array.prototype.map 两者区别
+        // forEach会改变原来的Array, map是返回一个新的数组
+
+        aArr.forEach((item) => {
+            console.log('item, ', item);
+        });
+        console.log('aArr', aArr);
+
+        oArr.forEach((item) => {
+            item['age'] = item['age'] + 1;
+        });
+        console.info(oArr);
+
+        const mapArr = mArr.map((item) => {
+            return item['age'] + 1;
+        })
+        console.info(mapArr, mArr)
+
+
+
+        const newArr = aArr.map((item) => {
+            return item * 2;
+        })
+        console.log('map', newArr);
+
+        const filterArr = aArr.filter((item) => {
+            return item > 2;
+        })
+        console.log('filterArr', filterArr);
+
+        const reduceArr = aArr.reduce((prev, next) => {
+            return prev + next;
+        })
+        console.log('reduceArr', reduceArr);
+
+    </script>
+</body>
+</html>

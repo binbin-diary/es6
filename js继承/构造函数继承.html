@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>构造函数继承</title>
+</head>
+<body>
+<script>
+    function school() {
+        this.grade = '年级'
+    }
+    let aa = new school();
+    let bb = new school()
+    console.log(aa.constructor === school);
+    console.log(bb.constructor === school)
+    console.log(aa.grade == bb.grade)
+
+
+    //1. call(), apply() 方法继承，call([parms], [params]), 参数一当前对象，参数二传入的值，区别是apply为数组
+    function company() {
+        this.name = 'gb';
+        this.fn = function () {
+            console.log(this.person, 11);
+        }
+    }
+    
+    function tech(person, section) {
+        company.call(this, arguments)
+        // company.apply(this, arguments); // 当前对象继承company
+        this.person = person;
+        this.section = section;
+    }
+
+    var me = new tech('50', '供应链项目部')
+    console.log(me.name, me.person, me.section);
+    me.fn();
+
+    //2. prototype 原型继承
+    function parents() {
+        this.name = 'parents';
+    }
+
+    function childrens(age, sex) {
+        this.age = age;
+        this.sex = sex;
+    }
+
+    childrens.prototype = new parents();
+    childrens.prototype.constructor = childrens;
+
+    var pc = new childrens();
+    console.log(pc.name);
+
+
+
+
+</script>
+</body>
+</html>
