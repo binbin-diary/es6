@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件冒泡和捕获</title>
+</head>
+<body>
+
+    <div id="a1">
+        <p id="p1">事件冒泡和捕获</p>
+    </div>
+
+<script>
+    var _a1 = document.getElementById('a1');
+    var _p1 = document.getElementById('p1');
+
+
+    // 事件冒泡, 由微软公司提出，事件流执行顺序为从里到外，也就是先弹出p1, 后弹出a1, p > div > body > html > document
+    // 事件捕获, 网景公司提出，事件流执行顺序从外到里，也就是先弹出a1, 后弹出p1, document > html > body > div > p
+    // w3c提出，通过addEventListener第三个参数true/false， 来决定通过哪种方式触发事件顺序
+
+    _a1.addEventListener('click', function () {
+        alert('事件捕获: a1');
+    }, true);
+
+    _p1.addEventListener('click', function () {
+        alert('事件捕获: p1');
+    }, true);
+
+    _a1.addEventListener('click', function () {
+        alert('事件冒泡: a1');
+    }, false);
+
+    _p1.addEventListener('click', function () {
+        alert('事件冒泡: p1');
+    }, false);
+
+    window.addEventListener('load', function () {
+        console.log('window');
+    }, true);
+
+    document.addEventListener('load', function () {
+        console.log('document, 事件捕获')
+    }, true);
+
+
+</script>
+
+</body>
+
+
+
+</html>
