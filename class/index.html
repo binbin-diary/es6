@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class</title>
+</head>
+<body>
+    <script>
+        //  Class类，是一种语法糖，使用方法跟构建函数一样，通过new关键字来实例化, class类方法及属性定义在其原型（prototype）上。
+
+        class demo {
+            constructor ({x = 1, y = 2} = {}) {
+                this.x = x;
+                this.y = y;
+            }
+            init () {
+                console.log('初始化', this.x, this.y);
+            }
+        }
+
+        // 由于class类方法定义其原型上，可通过对其进行添加及修改
+        Object.assign(demo.prototype, {
+            init () {
+                this.getClass();
+            },
+            getClass () {
+                console.log('定义原型方法');
+                this.getName();
+            },
+            getName () {
+                console.log('原型名字');
+            }
+        });
+
+        // 原型方法可以用参数代替
+        let name = 'getName';
+        class demo1 {
+            constructor ({ x = '111' } = {}) {
+                this.name = x;
+            }
+            [name] () {
+                console.log(this.name);
+            }
+        }
+
+        let A = new demo();
+        A.init();
+
+        // let B = new demo1({ x: 'getName' });
+        // B.getName();
+
+
+        // 继承
+        class demo2 extends demo1 {
+            constructor (z, x) {
+                super({x: x});
+                this.z = z;
+                this.hello()
+            }
+
+            hello () {
+                console.log('继承', this.z);
+                this.getName();
+            }
+        }
+        new demo2('hello', 'nihao11');
+
+
+
+        const myClass = class Me {
+            constructor (obj = {x: 1, y: 2}) {
+                this.x = obj.x;
+                this.y = obj.y;
+            }
+            init () {
+                this.getName();
+            }
+            getName () {
+                console.log(this.x, this.y);
+            }
+        }
+
+        let C = new myClass({x: 1, y: 2});
+        C.init();
+
+        const meClass = class {
+            constructor (a, b) {
+                this.a = a;
+                this.b = b;
+                this.init = this.init.bind(this, 3, 4);
+            }
+            init () {
+                this.args = [...arguments];
+                console.log(this.args, this);
+                return this.a + this.b;
+            }
+        }
+
+        let D = new meClass(1, 2);
+        const { init, a, b } = D;
+        console.log('num', init(), a, b);
+
+    </script>
+</body>
+</html>
